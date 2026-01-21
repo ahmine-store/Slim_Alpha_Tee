@@ -1,56 +1,56 @@
-import { db } from "./firebase.js";
-import {
-  collection,
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// script.js
+import { db } from './firebase.js'; // make sure path is correct
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const form = document.getElementById("orderForm");
-const successBox = document.getElementById("successMessage");
+// Select all order forms
+const forms = document.querySelectorAll(".orderForm");
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
+forms.forEach(form => {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Prevent page refresh
 
-  const order = {
-    name: form.name.value,
-    phone: form.phone.value,
-    email: form.email.value,
-    address: form.address.value,
-    product: form.product.value,
-    size: form.size.value,
-    color: form.color.value,
-    price: "2900 PKR",
-    advance: "500 PKR",
-    status: "Pending",
-    createdAt: serverTimestamp()
-  };
+        const product = form.dataset.product;
+        const price = form.dataset.price;
+        const advance = form.dataset.advance;
 
-  try {
-    await addDoc(collection(db, "orders"), order);
+        const name = form.querySelector(".name").value.trim();
+        const phone = form.querySelector(".phone").value.trim();
+        const email = form.querySelector(".email").value.trim();
+        const size = form.querySelector(".size").value;
+        const color = form.querySelector(".color").value;
+        const address = form.querySelector(".address").value.trim();
+        const msgEl = form.querySelector(".msg");
 
-    // SUCCESS MESSAGE
-    successBox.style.display = "block";
+        if (!name || !phone || !email || !size || !color || !address) {
+            alert("Please fill all fields!");
+            return;
+        }
 
-    // AUTO WHATSAPP MESSAGE (BEST ALTERNATIVE)
-    const whatsappNumber = "923302540909"; // YOUR NUMBER
-    const message = `
-New Order Received 🔥
-Product: ${order.product}
-Name: ${order.name}
-Phone: ${order.phone}
-Size: ${order.size}
-Color: ${order.color}
-Address: ${order.address}
-Price: 2900 PKR
-Advance: 500 PKR
-`;
+        try {
+            // Add order to Firestore "orders" collection
+            await addDoc(collection(db, "orders"), {
+                product,
+                price,
+                advance,
+                name,
+                phone,
+                email,
+                size,
+                color,
+                address,
+                timestamp: serverTimestamp()
+            });
 
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, "_blank");
+            // Show confirmation message
+            msgEl.style.color = "green";
+            msgEl.textContent = "✅ Your order has been placed successfully!";
+            
+            // Reset the form
+            form.reset();
 
-    form.reset();
-  } catch (err) {
-    alert("Something went wrong. Please try again.");
-    console.error(err);
-  }
+        } catch (error) {
+            msgEl.style.color = "red";
+            msgEl.textContent = "❌ Error placing order: " + error.message;
+        }
+    });
 });

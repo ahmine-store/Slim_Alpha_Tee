@@ -29,17 +29,13 @@
 
 <!-- PRODUCTS SECTION -->
 <section id="products" class="products">
-
   <!-- PRODUCT 1 -->
   <div class="product-card">
     <span class="badge">🔥 Limited Stock</span>
     <h2>Slim_Alpha_Tee</h2>
     <p class="price">
-
-     <!-- PRODUCT IMAGES -->
-  <img src="images/slim_alpha_front.jpeg" alt="Slim Alpha Tee Front" class="product-img">
-  <img src="images/slim_alpha_back.jpeg" alt="Slim Alpha Tee Back" class="product-img">
-
+      <img src="images/slim_alpha_front.jpeg" alt="Slim Alpha Tee Front" class="product-img">
+      <img src="images/slim_alpha_back.jpeg" alt="Slim Alpha Tee Back" class="product-img">
       <span class="cut">Rs. 3600</span>
       <span class="sale">Rs. 2900</span>
     </p>
@@ -62,9 +58,11 @@
         <option>Black</option><option>White</option><option>Grey</option><option>Navy</option>
       </select>
       <textarea class="address" placeholder="Address" required></textarea>
-      <button>Confirm Order</button>
-      <p class="stock">⚠ Only 37 pieces left</p>
-      <p class="msg"></p>
+      <button type="submit">Confirm Order</button>
+      <div class="stock-msg">
+        <p class="stock">⚠ Only 37 pieces left</p>
+        <p class="msg"></p>
+      </div>
     </form>
   </div>
 
@@ -91,13 +89,15 @@
         <option>Jet Black</option><option>Carbon Grey</option>
       </select>
       <textarea class="address" placeholder="Address" required></textarea>
-      <button>Request Access</button>
-      <p class="stock">⚠ Only 15 pieces available</p>
-      <p class="msg"></p>
+      <button type="submit">Request Access</button>
+      <div class="stock-msg">
+        <p class="stock">⚠ Only 15 pieces available</p>
+        <p class="msg"></p>
+      </div>
     </form>
   </div>
-
 </section>
+
 
 <!-- ABOUT US -->
 <section class="about">
@@ -124,9 +124,9 @@
   <p>© Ahmine_products — Export Quality Apparel Since 2019</p>
 </footer>
 
+<script type="module" src="firebase.js"></script>
 <script type="module" src="script.js"></script>
+
 </body>
 </html>
 
-<script type="module" src="firebase.js"></script>
-<script type="module" src="script.js"></script>
